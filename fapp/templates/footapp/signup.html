@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejestracja</title>
+</head>
+<body>
+    <h3>Zarejestruj się</h3>
+    <form action="/signup" method="post">
+    {% csrf_token %}
+        <label for="">Nazwa Użytkownika</label>
+        <input type="text" id="username" name="username" placeholder="Utwórz użytkownika (tylko litery i cyfry)" required>
+        <br>    
+        <label for="">Imię</label>
+        <input type="text" id="fname" name="fname" placeholder="Imię" required>
+        <br>
+        <label for="">Nazwisko</label>
+        <input type="text" id="lname" name="lname" placeholder="Nazwisko" required>
+        <br>
+        <label for="">Adres e-mail</label>
+        <input type="email" id="email" name="email" placeholder="Adres E-mail" required>
+        <br>
+        <label for="">Hasło</label>
+        <input type="password" id="pass1" name="pass1" placeholder="Hasło" required>
+        <br>
+        <label for="">Powtórz hasło</label>
+        <input type="password" id="pass2" name="pass2" placeholder="Powtórz Hasło" required>
+        <br>
+        <button type="submit">Zarejestruj się</button>
+    </form>
+    
+</body>
+</html>

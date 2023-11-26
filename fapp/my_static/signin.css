@@ -1,0 +1,154 @@
+* {
+	padding: 0;
+	margin: 0;
+	text-decoration: none;
+	list-style: none;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.menu {
+	width: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	padding: 0 3rem;
+	background: #158c06;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	color: white;
+}
+
+.menu a {
+	margin: 0 7rem;
+	text-decoration: none;
+	padding: 1rem 0.5rem;
+	color: #ffffff;
+	transition: background-color 0.3s, border-radius 0.3s;
+}
+
+.menu a:hover {
+	background-color: #205919; /* Kolor tła po najechaniu */
+	border-radius: 10px; /* Zaokrąglenie obramowania po najechaniu */
+}
+
+.dropdown {
+	position: relative;
+}
+
+.dropdown ul {
+	width: 200px;
+	text-align: center;
+	position: absolute;
+	background: #205919;
+	padding: 0;
+	list-style-type: none;
+	box-shadow: 0px 0px 23px 0px rgba(0, 0, 0, 0.388);
+	margin-top: 10px;
+	border-radius: 7px;
+	display: none;
+}
+
+.dropdown ul li {
+	padding: 0.5rem;
+}
+
+.dropdown ul li a {
+	width: 100%;
+	height: 100%;
+	display: inline-block;
+	padding: 0;
+	margin: 0;
+}
+
+.dropdown ul li:hover {
+	background: #205919;
+	border-radius: 7px;
+}
+
+.dropdown a:focus + ul,
+.dropdown a:hover + ul,
+.dropdown ul:hover {
+	display: block;
+}
+
+.signout-btn {
+	background: none;
+	color: white;
+	font-size: 17px;
+	cursor: pointer; /* Zmienia kształt kursora na "ręka" po najechaniu na przycisk */
+	padding: 5px 10px; /* Dostosuj padding do preferencji */
+	border-radius: 5px; /* Zaokrąglone rogi */
+	background-color: #0b79da; /* Kolor tła przycisku */
+	transition: background-color 0.3s; /* Efekt przejścia */
+	margin-right: 10px;
+	position: absolute;
+	top: 25px;
+	right: 10px;
+}
+
+label.logo {
+	color: whitesmoke;
+	font-size: 35px;
+	line-height: 80px;
+	padding: 0 10px;
+	font-weight: bold;
+}
+
+button.signout-btn {
+	background: none;
+	border: none;
+	color: white;
+	font-size: 17px;
+	margin-right: 10px; /* Dodaj to */
+}
+
+section {
+	background: url(xd.jpg) no-repeat center center fixed;
+	background-size: cover;
+	height: calc(100vh);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.main {
+	text-align: center;
+}
+
+.custom-new-team-btn,
+.custom-join-team-btn {
+	background: #158c06;
+	color: #ffffff;
+	border: none;
+	font-size: 17px;
+	cursor: pointer;
+	padding: 10px 20px;
+	border-radius: 5px;
+	margin: 140px;
+	text-decoration: none;
+}
+
+
+.custom-join-team-btn:hover {
+    background-color: #205919;
+    transition: .5s;
+}
+
+.custom-new-team-btn:hover {
+    background-color: #205919;
+    transition: .5s;
+}
+
+.custom-new-team-btn p {
+    color: #ffffff;
+}
+
+.custom-join-team-btn p {
+    color: #ffffff;
+}
+

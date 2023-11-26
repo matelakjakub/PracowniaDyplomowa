@@ -1,0 +1,25 @@
+body {
+    padding-top: 50px; /* Adjust top spacing as needed */
+    padding-bottom: 50px; /* Adjust bottom spacing as needed */
+    background-image: url('xdpp.jpg'); /* Optional background color */
+}
+
+.container {
+    margin-top: 50px; /* Adjust top margin to center the container */
+}
+
+.table {
+    width: 80%;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 20px; /* Adjust the border-radius for the desired level of rounding */
+    overflow: hidden; 
+}
+
+h1 {
+    text-align: center;
+}
+
+.bckthm{
+    margin-left: 60px;
+}

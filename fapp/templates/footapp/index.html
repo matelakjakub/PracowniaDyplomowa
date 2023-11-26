@@ -1,0 +1,115 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'index.css' %}">
+    <title>Zaloguj się</title>
+
+</head>
+
+<body>
+
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags}} alert-dismissible fade show" role="alert">
+        <strong>Message:</strong> {{ message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+
+
+    {% if user.is_authenticated %}
+    {% comment %} Użytkownik jest zalogowany, przekieruj na stronę główną {% endcomment %}
+    <script>
+        window.location.replace("/signin"); // Przekierowanie na stronę główną
+    </script>
+
+    {% else %}
+    <div class="hero" >
+        <h3 style="color: white; font-size: x-large;">Witaj w FootballApp</h3>
+        <div class="form-box">
+            <div class="button-box">
+                <div id="btn"></div>
+                <button type="submit" class="toggle-btn" onclick="login()">Login</button>
+                <button type="submit" class="toggle-btn" onclick="register()">Rejestracja</button>
+            </div>
+            <form id="login" class="input-group" action="/signin" method="post">
+                {% csrf_token %}
+                    <label for="" class="login">Nazwa Użytkownika</label>
+                    <input type="text" class="input-field" id="username" name="username" placeholder="Wpisz nazwę użytkownika" class="login" required>
+                    <br>    
+                    <label for="" class="login">Hasło</label>
+                    <input type="password" class="input-field" id="pass1" name="pass1" placeholder="Wpisz hasło" class="login" required>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <button type="submit" class="submit-btn">Zaloguj się</button>
+            </form>
+            <p class="forgotten"><a class="forgotten-link" href="{% url "password_reset" %}">Zapomniałeś hasła?</a></p>
+
+
+            <form id="register" class= "input-group"action="/signup" method="post">
+                {% csrf_token %}
+                    <label for="">Nazwa Użytkownika</label>
+                    <input type="text" class="input-field" id="username" name="username" placeholder="Utwórz użytkownika (tylko litery i cyfry)" required>
+                    <br>    
+                    <label for="">Imię</label>
+                    <input type="text" class="input-field" id="fname" name="fname" placeholder="Imię" required>
+                    <br>
+                    <label for="">Nazwisko</label>
+                    <input type="text" class="input-field" id="lname" name="lname" placeholder="Nazwisko" required>
+                    <br>
+                    <label for="">Adres e-mail</label>
+                    <input type="email" class="input-field" id="email" name="email" placeholder="Adres E-mail" required>
+                    <br>
+                    <label for="">Hasło</label>
+                    <input type="password" class="input-field" id="pass1" name="pass1" placeholder="Hasło" required>
+                    <br>
+                    <label for="">Powtórz hasło</label>
+                    <input type="password" class="input-field" id="pass2" name="pass2" placeholder="Powtórz Hasło" required>
+                    <br>
+                    <br>
+                    <br>
+                    <button type="submit" class="submit-btn">Zarejestruj się</button>
+                </form>
+
+        </div>
+    </div>
+        
+    {% endif %}
+
+
+    <script src="" async defer></script>
+    <script>
+    var x = document.getElementById("login");    
+    var y = document.getElementById("register");   
+    var z = document.getElementById("btn"); 
+    var formBox = document.getElementsByClassName("form-box");
+
+    function register(){
+        x.style.left = "-400px"
+        y.style.left = "50px"
+        z.style.left = "110px"
+        formBox.style.height ="600px"
+
+    }
+
+    function login(){
+        x.style.left = "50px"
+        y.style.left = "450px"
+        z.style.left = "0px"
+
+    }
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,13 @@
+#pycharm files
+.idea
+Lib
+pyvenv.cfg
+
+#python pyc files
+fapp/fapp/__pycache__/
+fapp/footapp/migrations/
+fapp/footapp/__pycache__/
+
+#secrets
+secrets.json
+

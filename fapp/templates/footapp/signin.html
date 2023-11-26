@@ -1,0 +1,56 @@
+{% load static %}
+{% load bootstrap %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strona Główna</title>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="{% static 'signin.css' %}">
+    <script src="https://kit.fontawesome.com/58ebdca6bb.js" crossorigin="anonymous"></script>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
+</head>
+<body>
+    
+    <form action="/signin" method="post">
+    {% csrf_token %}
+
+    <nav class="menu">
+        <label class="logo">FootballApp</label>
+        <a href="#">Strona Główna</a>
+        <a href="/mapa">Nasze boiska</a>
+        <a href="/leaguetable">Tabela</a>
+        <div class="dropdown">
+            <a href="#">Drużyna</a>
+            <ul>
+                <li><a href="/addpastmatch">Dodaj mecz</a></li>
+                <li><a href="/recentmatches">Ostatnie mecze</a></li>
+                <li><a href="/yourteam">Twoja drużyna</a></li>
+            </ul>
+        </div>
+        {% if user.is_authenticated %}
+            <button class="signout-btn"><a href="/signout">Wyloguj się</a></button>
+            <span class="username" style="color: black; margin-left: 660px; font-size: 10px;">Użytkownik:<br> {{ user.username }}</span>
+        {% else %}
+            <button class="signout-btn"><a href="/signout">Wyloguj się</a></button>
+        {% endif %}
+        
+    </nav>
+
+    <section>
+        <main>
+            <button class="custom-new-team-btn "><a href="/newteam"><p>Załóż drużynę</p></a></button>
+            <button class="custom-join-team-btn"><a href="/jointeam"><p>Dołącz do drużyny</p></a></button>
+            
+        </main>
+        
+    </section>
+
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script> -->
+        
+</body>
+</html>
