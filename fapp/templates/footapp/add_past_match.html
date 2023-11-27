@@ -83,10 +83,10 @@
 
     <form method="post">
         {% csrf_token %}
-        <!-- {{ form.as_p }} -->
+        {{ form.non_field_errors }}
 
         <div class="form-group full-width">
-            <label for="{{ form.date.id_for_label }}">Data(DD-MM-RR):</label>
+            <label for="{{ form.date.id_for_label }}">Data(DD.MM.RRRR):</label>
             {{ form.date }}
         </div>
         <div class="form-group">
@@ -105,6 +105,25 @@
                 <!-- Placeholder na inputy dla strzelców bramek dla drużyny 1 -->
             </div>
         </div>
+        
+        <div class="form-group">
+            <label for="shooter_of_match_team1">Strzelec meczu - Drużyna 1:</label>
+            <select name="shooter_of_match_team1" id="shooter_of_match_team1">
+                {% for player in players_team1 %}
+                    <option value="{{ player.id }}">{{ player.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="shooter_of_match_team2">Strzelec meczu - Drużyna 2:</label>
+            <select name="shooter_of_match_team2" id="shooter_of_match_team2">
+                {% for player in players_team2 %}
+                    <option value="{{ player.id }}">{{ player.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
 
         <div class="form-group">
             <label for="score_team2">Gole drużyny 2:</label>
@@ -182,31 +201,34 @@
     </form>
 
     <script>
-        function addScorerInput(team, players) {
-            var scorersContainer = document.getElementById('scorers_' + team);
-            var select = document.createElement('select');
-            select.name = 'scorers_' + team + '[]';
-
-            for (var i = 0; i < players.length; i++) {
-                var option = document.createElement('option');
-                option.value = players[i].id;
-                option.text = players[i].name;
-                select.appendChild(option);
+        function generateScorerInputs(teamNumber) {
+            var scorersContainer = document.getElementById('scorers_team' + teamNumber);
+            var numGoals = document.getElementById('score_team' + teamNumber).value;
+            scorersContainer.innerHTML = ''; // Wyczyszczenie poprzednich pól
+    
+            for (var i = 0; i < numGoals; i++) {
+                var inputLabel = document.createElement('label');
+                inputLabel.innerHTML = 'Strzelec bramki ' + (i + 1) + ':';
+    
+                var inputElement = document.createElement('input');
+                inputElement.type = 'text';
+                inputElement.name = 'scorers_team' + teamNumber + '[]';
+                inputElement.placeholder = 'Wprowadź imię i nazwisko';
+    
+                scorersContainer.appendChild(inputLabel);
+                scorersContainer.appendChild(inputElement);
             }
-
-            scorersContainer.appendChild(select);
         }
-
-        document.getElementById('team1').addEventListener('change', function () {
-            var team1Players = JSON.parse(this.options[this.selectedIndex].getAttribute('data-players'));
-            addScorerInput('team1', team1Players);
+    
+        document.getElementById('score_team1').addEventListener('input', function () {
+            generateScorerInputs(1);
         });
-
-        document.getElementById('team2').addEventListener('change', function () {
-            var team2Players = JSON.parse(this.options[this.selectedIndex].getAttribute('data-players'));
-            addScorerInput('team2', team2Players);
+    
+        document.getElementById('score_team2').addEventListener('input', function () {
+            generateScorerInputs(2);
         });
     </script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"

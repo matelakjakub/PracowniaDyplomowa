@@ -6,8 +6,8 @@ from django.contrib.auth.models import User   #biblioteka do przekazywania danyc
 from django.contrib import messages   #biblioteka do wyswietlania wiadomosci np. przy rejestracji dla uzytkownika
 from django.contrib.auth import authenticate,login, logout #pozwala na sprawdzenie czy hasło użytkownika oraz nazwa się zgadza 
 
-from .models import Team, PastMatch
-from .forms import TeamForm, JoinTeamForm, PastMatchForm
+from .models import Team, PastMatch, Player, ForumPost
+from .forms import TeamForm, JoinTeamForm, PastMatchForm, ForumPostForm
 from django.db.models import F, Sum
 
 
@@ -22,7 +22,6 @@ def mapa(request):
     return render(request, 'footapp/mapa.html')
 
 def signup(request):
-
     if request.method == "POST":
         username = request.POST.get('username')
         fname = request.POST.get('fname')
@@ -31,17 +30,18 @@ def signup(request):
         pass1 = request.POST.get('pass1')
         pass2 = request.POST.get('pass2')
 
-        myuser = User.objects.create_user(username,email,pass1)
+        myuser = User.objects.create_user(username, email, pass1)
         myuser.first_name = fname
-        myuser.last_name = fname
-
+        myuser.last_name = lname
         myuser.save()
+
+        # Dodaj obiekt modelu Player dla nowego użytkownika
+        player = Player(user=myuser)
+        player.save()
 
         messages.success(request, "Twoje konto zostało utworzone!")
 
         return redirect('home')
-
-
 
     return render(request, "footapp/signup.html")
 
@@ -119,6 +119,9 @@ def join_team(request):
                     messages.error(request, "Jesteś już członkiem drużyny.")
                 else:
                     team.members.add(request.user)
+                    player = Player.objects.get(user=request.user)
+                    player.team = team
+                    player.save()
                     messages.success(request, 'Pomyślnie dołączyłeś do drużyny {}.'.format(team.name_team))
             except Team.DoesNotExist:
                 form.add_error('join_code', 'Drużyna o podanym kodzie nie istnieje.')
@@ -138,6 +141,26 @@ def add_past_match(request):
             team2_name = form.cleaned_data['team2']
             team1_goals = form.cleaned_data['score_team1']
             team2_goals = form.cleaned_data['score_team2']
+
+            scorers_team1 = request.POST.getlist('scorers_team1[]')
+            
+
+            # Pobierz listę strzelców bramek dla drużyny 2
+            scorers_team2 = request.POST.getlist('scorers_team2[]')
+            
+
+
+            # # Dodawanie strzelców bramek dla team1
+            # match = PastMatch.objects.get(pk=1)
+            # player1 = Player.objects.get(name='John Doe')
+            # player2 = Player.objects.get(name='Jane Doe')
+
+            # match.scorers_team1.add(player1, player2)
+
+            # # Dodawanie strzelców bramek dla team2
+            # match.scorers_team2.add(player1, player2)
+
+            
             
 
             # Znajdź lub utwórz obiekty Team na podstawie nazw drużyn
@@ -173,11 +196,17 @@ def add_past_match(request):
             past_match = form.save(commit=False)
             past_match.team1 = team1
             past_match.team2 = team2
+
+
             past_match.save()
+            
+            
+
 
             return redirect('signin')  # Replace 'success_page' with the URL name you want to redirect to
     else:
         form = PastMatchForm()
+        
     
     return render(request, 'footapp/add_past_match.html', {'form': form})
 @login_required
@@ -208,9 +237,19 @@ def leave_team(request, id):
     return render(request, 'footapp/leave_team.html', {'team': team})
 
 
+def forum(request):
+    posts = ForumPost.objects.all()
+    form = ForumPostForm()
 
+    if request.method == 'POST':
+        form = ForumPostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user  # Przypisz autora posta do aktualnie zalogowanego użytkownika
+            post.save()
+            return redirect('forum')
 
-
+    return render(request, 'footapp/forum.html', {'posts': posts, 'form': form})
 
 
 class CustomPasswordResetView(PasswordResetView):
