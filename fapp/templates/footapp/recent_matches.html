@@ -28,12 +28,16 @@
                 <th>Drużyna 1</th>
                 <th>Drużyna 2</th>
                 <th>Wynik</th>
+                <th>Strzelcy drużyny 1</th>
+                <th>Strzelcy drużyny 2</th>
             </tr>
             {% for match in recent_matches %}
             <tr>
                 <td>{{ match.team1.name_team }}</td>
                 <td>{{ match.team2.name_team }}</td>
                 <td>{{ match.score_team1 }} : {{ match.score_team2 }}</td>
+                <td>{{ match.scorers_team1 }}</td>
+                <td>{{ match.scorers_team2|join:", "|escape }}</td>
             </tr>
             {% endfor %}
         </table>

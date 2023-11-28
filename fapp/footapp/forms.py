@@ -24,6 +24,11 @@ class ForumPostForm(forms.ModelForm):
         model = ForumPost
         fields = ['title', 'content']
 
+class ForumPostEditForm(forms.ModelForm):
+    class Meta:
+        model = ForumPost
+        fields = ['title', 'content']
+
 
 
 

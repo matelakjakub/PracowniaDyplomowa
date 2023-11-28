@@ -35,6 +35,9 @@ class ForumPost(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def get_absolute_url(self):
+        return reverse('forum_post_detail', args=[str(self.id)])
+
 
 
 class PastMatch(models.Model):
@@ -57,8 +60,8 @@ class PastMatch(models.Model):
     Fouls_team2 = models.PositiveSmallIntegerField(blank=False, default=0)
     Cards_team1 = models.PositiveSmallIntegerField(blank=False, default=0)
     Cards_team2 = models.PositiveSmallIntegerField(blank=False, default=0) 
-    scorers_team1 = models.ManyToManyField(Player, related_name='scorers_team1', blank=True)
-    scorers_team2 = models.ManyToManyField(Player, related_name='scorers_team2', blank=True)
+    scorers_team1 = models.TextField(blank=True)
+    scorers_team2 = models.TextField(blank=True)
 
     def __str__(self):
         return f"{self.team1} vs. {self.team2}"

@@ -142,10 +142,8 @@ def add_past_match(request):
             team1_goals = form.cleaned_data['score_team1']
             team2_goals = form.cleaned_data['score_team2']
 
+            # Pobierz listę strzelców bramek dla drużyny 1 i 2  
             scorers_team1 = request.POST.getlist('scorers_team1[]')
-            
-
-            # Pobierz listę strzelców bramek dla drużyny 2
             scorers_team2 = request.POST.getlist('scorers_team2[]')
             
 
@@ -196,13 +194,11 @@ def add_past_match(request):
             past_match = form.save(commit=False)
             past_match.team1 = team1
             past_match.team2 = team2
-
+            past_match.scorers_team1 = scorers_team1
+            past_match.scorers_team2 = scorers_team2
 
             past_match.save()
             
-            
-
-
             return redirect('signin')  # Replace 'success_page' with the URL name you want to redirect to
     else:
         form = PastMatchForm()
@@ -252,6 +248,46 @@ def forum(request):
     return render(request, 'footapp/forum.html', {'posts': posts, 'form': form})
 
 
+def forum_post_detail(request, pk):
+    post = get_object_or_404(ForumPost, pk=pk)
+    return render(request, 'footapp/forum_post_detail.html', {'post': post})
+
+@login_required
+def edit_forum_post(request, pk):
+    post = get_object_or_404(ForumPost, pk=pk)
+
+    # Dodaj sprawdzenie, czy aktualnie zalogowany użytkownik jest autorem posta
+    if request.user != post.author:
+        # Możesz przekierować użytkownika, wyświetlić komunikat, itp.
+        return HttpResponseForbidden("Nie masz uprawnień do edycji tego posta.")
+
+    if request.method == 'POST':
+        form = ForumPostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('forum')  # Przekierowanie na stronę 'forum' po zapisaniu zmian
+    else:
+        form = ForumPostForm(instance=post)
+
+    return render(request, 'footapp/edit_forum_post.html', {'form': form, 'post': post})
+
+@login_required
+def delete_forum_post(request, pk):
+    post = get_object_or_404(ForumPost, pk=pk)
+
+    # Dodaj sprawdzenie, czy aktualnie zalogowany użytkownik jest autorem posta
+    if request.user != post.author:
+        # Możesz przekierować użytkownika, wyświetlić komunikat, itp.
+        return HttpResponseForbidden("Nie masz uprawnień do usunięcia tego posta.")
+
+    if request.method == 'POST':
+        post.delete()
+        return redirect('forum')
+
+    return render(request, 'footapp/delete_forum_post.html', {'post': post})
+
+
+
 class CustomPasswordResetView(PasswordResetView):
     template_name = 'footapp/registration/password_reset_form.html'
 
@@ -264,6 +300,7 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
 
 class CustomPasswordResetCompleteView(PasswordResetCompleteView):
     template_name = 'footapp/registration/password_reset_complete.html'
+
 
 
 

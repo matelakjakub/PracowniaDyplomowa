@@ -105,26 +105,6 @@
                 <!-- Placeholder na inputy dla strzelców bramek dla drużyny 1 -->
             </div>
         </div>
-        
-        <div class="form-group">
-            <label for="shooter_of_match_team1">Strzelec meczu - Drużyna 1:</label>
-            <select name="shooter_of_match_team1" id="shooter_of_match_team1">
-                {% for player in players_team1 %}
-                    <option value="{{ player.id }}">{{ player.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label for="shooter_of_match_team2">Strzelec meczu - Drużyna 2:</label>
-            <select name="shooter_of_match_team2" id="shooter_of_match_team2">
-                {% for player in players_team2 %}
-                    <option value="{{ player.id }}">{{ player.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-
         <div class="form-group">
             <label for="score_team2">Gole drużyny 2:</label>
             <input type="number" name="score_team2" id="score_team2" required>

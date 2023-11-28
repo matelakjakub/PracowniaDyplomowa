@@ -19,7 +19,8 @@
             background-image: url('{% static "xdpp.jpg" %}');
         }
 
-        h1, h2 {
+        h1,
+        h2 {
             text-align: center;
             color: white;
         }
@@ -42,25 +43,47 @@
         button {
             margin-top: 10px;
         }
+
+        label {
+            color: white;
+        }
+
+        .bckthm {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
     </style>
 </head>
 
 <body>
+    <a href="{% url 'signin' %}" class="btn btn-primary bckthm">Powrót do strony głównej</a>
     <h1>Ostatnie posty</h1>
 
     {% for post in posts %}
-    <div class="post-container">
-        <h3>{{ post.title }}</h3>
-        <p>{{ post.content }}</p>
-        <p>Autor: {{ post.author.username }}</p>
-        <p>Data publikacji: {{ post.created_at }}</p>
-    </div>
-    {% endfor %}
+<div class="post-container">
+    <h3>{{ post.title }}</h3>
+    <p>{{ post.content }}</p>
+    <p>Autor: {{ post.author.username }}</p>
+    <p>Data publikacji: {{ post.created_at }}</p>
+    {% if user.is_authenticated and user == post.author %}
+        <a href="{% url 'edit_forum_post' pk=post.pk %}">Edytuj</a>
+        <a href="{% url 'delete_forum_post' pk=post.pk %}">Usuń</a>
+    {% endif %}
+</div>
+{% endfor %}
 
     <h2>Dodaj nowy post</h2>
-    <form method="post" action="{% url 'forum' %}">
+    <form method="post" action="{% url 'forum' %}" style="text-align: center;">
         {% csrf_token %}
-        {{ form.as_p }}
+        <div style="margin-bottom: 10px;">
+            <label for="{{ form.title.id_for_label }}">Tytuł:</label>
+            {{ form.title }}
+        </div>
+        <div style="margin-bottom: 10px;">
+            <label for="{{ form.content.id_for_label }}">Treść:</label>
+            {{ form.content }}
+        </div>
         <button type="submit" class="btn btn-primary">Dodaj post</button>
     </form>
 

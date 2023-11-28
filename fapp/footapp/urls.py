@@ -4,7 +4,7 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-from footapp.views import teams_all, new_team, edit_team,delete_team, forum
+from footapp.views import teams_all, new_team, edit_team,delete_team, forum, forum_post_detail, edit_forum_post, delete_forum_post
 
 from .views import PasswordResetView
 from .views import mapa
@@ -32,6 +32,9 @@ urlpatterns = [
     path('leave_team/<int:id>', views.leave_team, name='leave_team'),
     path('mapa/', mapa, name='mapa'),
     path('forum/', views.forum, name='forum'),
+    path('forum/<int:pk>/', views.forum_post_detail, name='forum_post_detail'),
+    path('forum/<int:pk>/edit/', views.edit_forum_post, name='edit_forum_post'),
+    path('forum/<int:pk>/delete/', views.delete_forum_post, name='delete_forum_post'),
   
 
 
