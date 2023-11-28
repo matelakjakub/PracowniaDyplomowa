@@ -28,10 +28,17 @@
         h2{
             color: white;
         }
+        .bckthmm {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
     </style>
 </head>
 
 <body>
+    <a href="{% url 'forum' %}" class="btn btn-primary bckthmm">Powrót do forum</a>
     {% block content %}
     <h2>Czy na pewno chcesz usunąć ten post?</h2>
     <form method="post" action="{% url 'delete_forum_post' pk=post.pk %}">
@@ -42,7 +49,7 @@
         <br>
         <br>
     </form>
-    <a href="{% url 'forum_post_detail' pk=post.pk %}">Anuluj</a>
+    <a href="{% url 'forum' %}" class="btn btn-primary bckthm">Anuluj</a>
     {% endblock %}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"

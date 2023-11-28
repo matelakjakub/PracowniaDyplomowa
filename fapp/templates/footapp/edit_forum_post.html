@@ -53,10 +53,17 @@
                 display: block;
                 margin-top: 10px;
             }
+
+            .bckthm {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
         </style>
 </head>
 
 <body class="container">
+    <a href="{% url 'forum' %}" class="btn btn-primary bckthm">Powrót do Forum</a>
     {% block content %}
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -73,7 +80,6 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
             </form>
-            <a href="{% url 'forum_post_detail' pk=post.pk }" class="text-center mt-3">Anuluj</a>
         </div>
     </div>
     {% endblock %}
